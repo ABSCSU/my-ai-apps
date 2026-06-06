@@ -11,100 +11,150 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg1: #1a0533;
-  --bg2: #0f2952;
-  --accent: #c8f04a;
-  --accent-dark: #9abe2e;
-  --card: rgba(255,255,255,0.07);
-  --card-border: rgba(255,255,255,0.10);
-  --card-done: rgba(255,255,255,0.03);
+  --bg1: #0e0428;
+  --bg2: #0a1f44;
   --text: #f0edf7;
   --text-dim: rgba(240,237,247,0.45);
-  --text-done: rgba(240,237,247,0.30);
+  --text-done: rgba(240,237,247,0.28);
+  --card: rgba(255,255,255,0.07);
+  --card-border: rgba(255,255,255,0.11);
+  --card-done: rgba(255,255,255,0.03);
   --radius: 16px;
+
+  /* Category palette */
+  --work-from:   #f97316;
+  --work-to:     #fb923c;
+  --work-glow:   rgba(249,115,22,0.25);
+  --work-pill:   rgba(249,115,22,0.18);
+  --work-border: rgba(249,115,22,0.40);
+  --work-check:  #f97316;
+  --work-text:   #fed7aa;
+
+  --personal-from:   #8b5cf6;
+  --personal-to:     #a78bfa;
+  --personal-glow:   rgba(139,92,246,0.25);
+  --personal-pill:   rgba(139,92,246,0.18);
+  --personal-border: rgba(139,92,246,0.40);
+  --personal-check:  #a78bfa;
+  --personal-text:   #ddd6fe;
+
+  --other-from:   #06b6d4;
+  --other-to:     #22d3ee;
+  --other-glow:   rgba(6,182,212,0.20);
+  --other-pill:   rgba(6,182,212,0.15);
+  --other-border: rgba(6,182,212,0.35);
+  --other-check:  #22d3ee;
+  --other-text:   #a5f3fc;
 }
 
 html, body { min-height: 100%; }
 
 body {
   font-family: 'Instrument Sans', sans-serif;
-  background: linear-gradient(145deg, var(--bg1) 0%, var(--bg2) 100%);
+  background: linear-gradient(150deg, var(--bg1) 0%, var(--bg2) 100%);
   min-height: 100vh;
   color: var(--text);
-  padding-bottom: 4rem;
+  padding-bottom: 5rem;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Ambient blobs */
-body::before, body::after {
-  content: '';
+/* Ambient blobs — 3 vivid ones */
+.blob {
   position: fixed;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(100px);
   pointer-events: none;
   z-index: 0;
 }
-body::before {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(200,240,74,0.12), transparent 70%);
-  top: -100px; right: -100px;
-}
-body::after {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(120,80,200,0.18), transparent 70%);
-  bottom: -80px; left: -80px;
-}
+.blob-1 { width:520px;height:520px; background:radial-gradient(circle,rgba(249,115,22,.18),transparent 70%); top:-140px;right:-120px; }
+.blob-2 { width:420px;height:420px; background:radial-gradient(circle,rgba(139,92,246,.20),transparent 70%); bottom:-100px;left:-80px; }
+.blob-3 { width:300px;height:300px; background:radial-gradient(circle,rgba(6,182,212,.14),transparent 70%); top:45%;left:55%; }
 
 .app {
   position: relative; z-index: 1;
-  max-width: 560px;
+  max-width: 580px;
   margin: 0 auto;
   padding: 3rem 1.25rem 2rem;
 }
 
-/* Header */
-.header { margin-bottom: 2.5rem; }
+/* ── Header ── */
+.header { margin-bottom: 2rem; }
 
 .logo {
   font-family: 'Fraunces', serif;
-  font-size: 2.4rem;
+  font-size: 2.5rem;
   font-weight: 300;
   letter-spacing: -0.02em;
   line-height: 1;
 }
-.logo em { font-style: italic; color: var(--accent); }
+.logo em { font-style: italic; color: #c8f04a; }
 
 .tagline {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-dim);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
-/* Progress */
+/* ── Category summary pills ── */
+.cat-summary {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.cat-pill-big {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity .18s, transform .12s;
+  user-select: none;
+}
+.cat-pill-big:active { transform: scale(0.96); }
+
+.cat-pill-big.work     { background:var(--work-pill);     border-color:var(--work-border);     color:var(--work-text); }
+.cat-pill-big.personal { background:var(--personal-pill); border-color:var(--personal-border); color:var(--personal-text); }
+.cat-pill-big.other    { background:var(--other-pill);    border-color:var(--other-border);    color:var(--other-text); }
+
+.cat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.work .cat-dot     { background: var(--work-from); }
+.personal .cat-dot { background: var(--personal-from); }
+.other .cat-dot    { background: var(--other-from); }
+
+/* ── Progress bar ── */
 .progress-wrap {
-  margin-top: 1.25rem;
+  margin-top: 1.2rem;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .progress-bar-track {
-  flex: 1;
-  height: 4px;
+  flex: 1; height: 5px;
   background: rgba(255,255,255,0.10);
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #f97316, #06b6d4);
+  border-radius: 3px;
   width: 0%;
-  transition: width .5s cubic-bezier(.4,0,.2,1);
+  transition: width .55s cubic-bezier(.4,0,.2,1);
 }
 
 .progress-label {
@@ -113,85 +163,110 @@ body::after {
   white-space: nowrap;
 }
 
-/* Add task */
-.add-row {
+/* ── Add row ── */
+.add-area {
+  margin-top: 1.8rem;
+  margin-bottom: 1.6rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 1rem 1.1rem;
+}
+
+.add-row-top {
   display: flex;
   gap: 10px;
-  margin-bottom: 2rem;
+  align-items: center;
 }
 
 .add-input {
   flex: 1;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 50px;
-  padding: 0.75rem 1.3rem;
+  background: transparent;
+  border: none;
   font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--text);
   outline: none;
-  transition: border-color .2s, background .2s;
 }
-.add-input::placeholder { color: rgba(255,255,255,0.30); }
-.add-input:focus {
-  border-color: rgba(200,240,74,0.5);
-  background: rgba(255,255,255,0.11);
-}
+.add-input::placeholder { color: rgba(255,255,255,0.28); }
 
 .add-btn {
-  width: 46px; height: 46px;
+  width: 36px; height: 36px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #c8f04a;
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: background .2s, transform .12s;
+  transition: background .18s, transform .12s;
 }
-.add-btn:hover { background: #d8ff5a; }
-.add-btn:active { transform: scale(0.93); }
-.add-btn svg { width: 20px; height: 20px; stroke: #0f2952; stroke-width: 2.5; }
+.add-btn:hover { background: #d6ff5c; }
+.add-btn:active { transform: scale(0.92); }
+.add-btn svg { width: 18px; height: 18px; stroke: #0e0428; stroke-width: 2.8; }
 
-/* Filters */
-.filters {
+.add-row-bottom {
   display: flex;
   gap: 8px;
-  margin-bottom: 1.5rem;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  flex-wrap: wrap;
+}
+
+.cat-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all .18s;
+}
+.cat-select-btn .dot { width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25); }
+.cat-select-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
+.cat-select-btn.sel-work     { background:var(--work-pill);     border-color:var(--work-border);     color:var(--work-text); }
+.cat-select-btn.sel-work .dot     { background:var(--work-from); }
+.cat-select-btn.sel-personal { background:var(--personal-pill); border-color:var(--personal-border); color:var(--personal-text); }
+.cat-select-btn.sel-personal .dot { background:var(--personal-from); }
+.cat-select-btn.sel-other    { background:var(--other-pill);    border-color:var(--other-border);    color:var(--other-text); }
+.cat-select-btn.sel-other .dot    { background:var(--other-from); }
+
+/* ── Filter bar ── */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.6rem;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 6px 16px;
+  padding: 6px 15px;
   border-radius: 50px;
   border: 1px solid rgba(255,255,255,0.12);
   background: transparent;
   color: var(--text-dim);
   font-family: 'Instrument Sans', sans-serif;
   font-size: 0.78rem;
-  letter-spacing: 0.03em;
   cursor: pointer;
   transition: all .18s;
 }
 .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
-.filter-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0f2952;
-  font-weight: 500;
-}
+.filter-btn.active-all      { background:#c8f04a; border-color:#c8f04a; color:#0e0428; font-weight:500; }
+.filter-btn.active-work     { background:var(--work-pill);     border-color:var(--work-border);     color:var(--work-text);     font-weight:500; }
+.filter-btn.active-personal { background:var(--personal-pill); border-color:var(--personal-border); color:var(--personal-text); font-weight:500; }
+.filter-btn.active-other    { background:var(--other-pill);    border-color:var(--other-border);    color:var(--other-text);    font-weight:500; }
+.filter-btn.active-done     { background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.20); color:var(--text); font-weight:500; }
 
-/* Section headers */
-.section-head {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
-  margin-bottom: 10px;
-  margin-top: 0.5rem;
-  padding-left: 4px;
-}
+/* Divider */
+.filter-divider { width:1px; height:24px; background:rgba(255,255,255,0.12); align-self:center; }
 
-/* Task list */
+/* ── Task list ── */
 .task-list {
   display: flex;
   flex-direction: column;
@@ -199,7 +274,7 @@ body::after {
   list-style: none;
 }
 
-/* Task card */
+/* ── Task card ── */
 .task-card {
   display: flex;
   align-items: center;
@@ -207,60 +282,72 @@ body::after {
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 1rem 1.1rem;
-  transition: background .2s, border-color .2s, opacity .3s, transform .3s;
+  padding: 0.95rem 1.1rem;
+  transition: background .2s, border-color .2s, opacity .28s, transform .28s;
   animation: slideIn .28s cubic-bezier(.4,0,.2,1) both;
   position: relative;
   overflow: hidden;
 }
 
+/* Left accent bar */
+.task-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 18%; bottom: 18%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+}
+.task-card.cat-work::before     { background: linear-gradient(180deg, var(--work-from), var(--work-to)); }
+.task-card.cat-personal::before { background: linear-gradient(180deg, var(--personal-from), var(--personal-to)); }
+.task-card.cat-other::before    { background: linear-gradient(180deg, var(--other-from), var(--other-to)); }
+
+/* Subtle glow on hover */
+.task-card.cat-work:hover     { border-color: var(--work-border);     box-shadow: 0 0 0 1px var(--work-border), 0 4px 24px var(--work-glow); }
+.task-card.cat-personal:hover { border-color: var(--personal-border); box-shadow: 0 0 0 1px var(--personal-border), 0 4px 24px var(--personal-glow); }
+.task-card.cat-other:hover    { border-color: var(--other-border);    box-shadow: 0 0 0 1px var(--other-border), 0 4px 24px var(--other-glow); }
+
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(-10px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.task-card.done {
-  background: var(--card-done);
-  border-color: rgba(255,255,255,0.05);
-}
+.task-card.done { background:var(--card-done); border-color:rgba(255,255,255,0.05); }
+.task-card.done::before { opacity: 0.3; }
+.task-card.done:hover { box-shadow: none; border-color: rgba(255,255,255,0.05); }
 
 .task-card.removing {
-  opacity: 0;
-  transform: translateX(30px) scale(0.97);
-  transition: opacity .25s ease, transform .25s ease;
+  opacity: 0; transform: translateX(28px) scale(0.97);
+  transition: opacity .22s ease, transform .22s ease;
 }
 
-/* Checkbox */
+/* ── Checkbox ── */
 .check-btn {
   width: 24px; height: 24px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.25);
+  border: 1.5px solid rgba(255,255,255,0.22);
   background: transparent;
   cursor: pointer;
   flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   transition: border-color .18s, background .18s;
-  position: relative;
 }
-.check-btn:hover { border-color: var(--accent); }
+.task-card.cat-work     .check-btn:hover { border-color: var(--work-check); }
+.task-card.cat-personal .check-btn:hover { border-color: var(--personal-check); }
+.task-card.cat-other    .check-btn:hover { border-color: var(--other-check); }
 
-.check-btn.checked {
-  background: var(--accent);
-  border-color: var(--accent);
-}
+.task-card.cat-work     .check-btn.checked { background:var(--work-check);     border-color:var(--work-check); }
+.task-card.cat-personal .check-btn.checked { background:var(--personal-check); border-color:var(--personal-check); }
+.task-card.cat-other    .check-btn.checked { background:var(--other-check);    border-color:var(--other-check); }
 
 .check-btn svg {
-  width: 13px; height: 13px;
-  stroke: #0f2952;
-  stroke-width: 2.8;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity .18s, transform .18s;
+  width:13px;height:13px;stroke:#0e0428;stroke-width:2.8;
+  opacity:0;transform:scale(0.5);
+  transition:opacity .18s,transform .18s;
 }
-.check-btn.checked svg { opacity: 1; transform: scale(1); }
+.check-btn.checked svg { opacity:1;transform:scale(1); }
 
-/* Task text */
-.task-text-wrap { flex: 1; min-width: 0; }
+/* ── Task text ── */
+.task-text-wrap { flex:1; min-width:0; }
 
 .task-text {
   font-size: 0.92rem;
@@ -268,85 +355,96 @@ body::after {
   color: var(--text);
   word-break: break-word;
   transition: color .2s;
-  outline: none;
-  cursor: text;
 }
-
 .task-card.done .task-text {
   color: var(--text-done);
   text-decoration: line-through;
-  text-decoration-color: rgba(255,255,255,0.20);
+  text-decoration-color: rgba(255,255,255,0.18);
 }
 
 .task-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 3px;
   font-size: 0.7rem;
   color: var(--text-dim);
-  margin-top: 2px;
 }
 
-/* Delete btn */
+/* inline category badge on card */
+.cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 50px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+.cat-badge.work     { background:var(--work-pill);     border-color:var(--work-border);     color:var(--work-text); }
+.cat-badge.personal { background:var(--personal-pill); border-color:var(--personal-border); color:var(--personal-text); }
+.cat-badge.other    { background:var(--other-pill);    border-color:var(--other-border);    color:var(--other-text); }
+.cat-badge .dot { width:5px;height:5px;border-radius:50%; }
+.cat-badge.work .dot     { background:var(--work-from); }
+.cat-badge.personal .dot { background:var(--personal-from); }
+.cat-badge.other .dot    { background:var(--other-from); }
+
+/* ── Delete btn ── */
 .del-btn {
-  width: 30px; height: 30px;
-  border-radius: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--text-dim);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity .15s, background .15s, color .15s;
+  width:30px;height:30px;border-radius:8px;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--text-dim);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;opacity:0;
+  transition:opacity .15s,background .15s,color .15s;
 }
-.task-card:hover .del-btn { opacity: 1; }
-.del-btn:hover { background: rgba(255,80,80,0.15); color: #ff6b6b; }
-.del-btn svg { width: 15px; height: 15px; }
+.task-card:hover .del-btn { opacity:1; }
+.del-btn:hover { background:rgba(255,80,80,.15);color:#ff6b6b; }
+.del-btn svg { width:15px;height:15px; }
 
-/* Empty state */
+/* ── Empty state ── */
 .empty {
-  text-align: center;
-  padding: 3.5rem 1rem;
-  color: var(--text-dim);
+  text-align:center;padding:3.5rem 1rem;color:var(--text-dim);
 }
-.empty-icon {
-  font-size: 2.8rem;
-  margin-bottom: 0.75rem;
-  display: block;
-}
-.empty strong { color: var(--text); display: block; font-size: 1rem; margin-bottom: 0.25rem; font-weight: 500; }
-.empty p { font-size: 0.84rem; line-height: 1.6; }
+.empty-icon { font-size:2.8rem;margin-bottom:.75rem;display:block; }
+.empty strong { color:var(--text);display:block;font-size:1rem;margin-bottom:.25rem;font-weight:500; }
+.empty p { font-size:.84rem;line-height:1.6; }
 
-/* Clear completed */
-.clear-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1.25rem;
+/* ── Bottom row ── */
+.bottom-row {
+  display:flex;justify-content:flex-end;margin-top:1.25rem;
 }
 .clear-btn {
-  background: transparent;
-  border: none;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 8px;
-  transition: color .15s, background .15s;
+  background:transparent;border:none;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:.78rem;color:var(--text-dim);
+  cursor:pointer;padding:6px 10px;border-radius:8px;
+  transition:color .15s,background .15s;
 }
-.clear-btn:hover { color: #ff6b6b; background: rgba(255,80,80,0.10); }
+.clear-btn:hover { color:#ff6b6b;background:rgba(255,80,80,.10); }
 
-/* Responsive */
-@media (max-width: 400px) {
-  .app { padding: 2rem 1rem 2rem; }
-  .logo { font-size: 1.9rem; }
+@media(max-width:400px){
+  .app{padding:2rem 1rem 2rem;}
+  .logo{font-size:2rem;}
+  .filter-divider{display:none;}
 }
 </style>
 </head>
 <body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
 <div class="app">
 
+  <!-- Header -->
   <header class="header">
     <h1 class="logo">Clar<em>ity</em></h1>
     <p class="tagline">Your tasks, beautifully managed</p>
+
+    <div class="cat-summary" id="catSummary"></div>
+
     <div class="progress-wrap">
       <div class="progress-bar-track">
         <div class="progress-bar-fill" id="progressFill"></div>
@@ -355,191 +453,236 @@ body::after {
     </div>
   </header>
 
-  <div class="add-row">
-    <input class="add-input" type="text" id="taskInput"
-      placeholder="Add a new task…" maxlength="200" autocomplete="off">
-    <button class="add-btn" id="addBtn" aria-label="Add task">
-      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-      </svg>
-    </button>
+  <!-- Add task -->
+  <div class="add-area">
+    <div class="add-row-top">
+      <input class="add-input" type="text" id="taskInput"
+        placeholder="What needs to be done?" maxlength="200" autocomplete="off">
+      <button class="add-btn" id="addBtn" aria-label="Add task">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="add-row-bottom" id="catPicker">
+      <button class="cat-select-btn" data-cat="work"><span class="dot"></span>Work</button>
+      <button class="cat-select-btn" data-cat="personal"><span class="dot"></span>Personal</button>
+      <button class="cat-select-btn" data-cat="other"><span class="dot"></span>Other</button>
+    </div>
   </div>
 
-  <div class="filters" id="filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="active">Active</button>
+  <!-- Filters -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active-all" data-filter="all">All</button>
+    <div class="filter-divider"></div>
+    <button class="filter-btn" data-filter="work">Work</button>
+    <button class="filter-btn" data-filter="personal">Personal</button>
+    <button class="filter-btn" data-filter="other">Other</button>
+    <div class="filter-divider"></div>
     <button class="filter-btn" data-filter="done">Completed</button>
   </div>
 
   <ul class="task-list" id="taskList" aria-label="Tasks"></ul>
 
-  <div class="clear-row">
+  <div class="bottom-row">
     <button class="clear-btn" id="clearBtn">Clear completed</button>
   </div>
 
 </div>
 
 <script>
-  const STORE_KEY = 'clarity_tasks';
-  let tasks = [];
-  let filter = 'all';
+const STORE_KEY = 'clarity_tasks_v2';
+let tasks = [];
+let filter = 'all';
+let selectedCat = 'work';
 
-  const taskInput = document.getElementById('taskInput');
-  const addBtn    = document.getElementById('addBtn');
-  const taskList  = document.getElementById('taskList');
-  const clearBtn  = document.getElementById('clearBtn');
-  const progressFill  = document.getElementById('progressFill');
-  const progressLabel = document.getElementById('progressLabel');
+const CATS = {
+  work:     { label: 'Work',     emoji: '💼' },
+  personal: { label: 'Personal', emoji: '🌿' },
+  other:    { label: 'Other',    emoji: '✦'  },
+};
 
-  // Load
-  try { tasks = JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch { tasks = []; }
+const taskInput   = document.getElementById('taskInput');
+const addBtn      = document.getElementById('addBtn');
+const taskList    = document.getElementById('taskList');
+const clearBtn    = document.getElementById('clearBtn');
+const progressFill  = document.getElementById('progressFill');
+const progressLabel = document.getElementById('progressLabel');
+const catSummary  = document.getElementById('catSummary');
 
-  function save() {
-    localStorage.setItem(STORE_KEY, JSON.stringify(tasks));
+try { tasks = JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch { tasks = []; }
+
+// Migrate old tasks without category
+tasks = tasks.map(t => ({ category: 'other', ...t }));
+
+function save() { localStorage.setItem(STORE_KEY, JSON.stringify(tasks)); }
+function uid()  { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function relativeDate(ts) {
+  const m = Math.floor((Date.now() - ts) / 60000);
+  if (m < 1)  return 'just now';
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m/60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h/24);
+  return d === 1 ? 'yesterday' : `${d}d ago`;
+}
+
+/* ── Category picker ── */
+function setCat(cat) {
+  selectedCat = cat;
+  document.querySelectorAll('.cat-select-btn').forEach(b => {
+    const c = b.dataset.cat;
+    b.className = 'cat-select-btn' + (c === cat ? ` sel-${c}` : '');
+  });
+}
+setCat('work');
+
+document.getElementById('catPicker').addEventListener('click', e => {
+  const btn = e.target.closest('.cat-select-btn');
+  if (btn) setCat(btn.dataset.cat);
+});
+
+/* ── Add task ── */
+function addTask() {
+  const text = taskInput.value.trim();
+  if (!text) { taskInput.focus(); return; }
+  tasks.unshift({ id: uid(), text, done: false, created: Date.now(), category: selectedCat });
+  save(); taskInput.value = ''; render(); taskInput.focus();
+}
+
+addBtn.addEventListener('click', addTask);
+taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+/* ── Toggle / Delete / Clear ── */
+function toggleTask(id) {
+  const t = tasks.find(t => t.id === id);
+  if (t) { t.done = !t.done; save(); render(); }
+}
+
+function deleteTask(id) {
+  const card = document.querySelector(`[data-id="${id}"]`);
+  if (card) {
+    card.classList.add('removing');
+    setTimeout(() => { tasks = tasks.filter(t => t.id !== id); save(); render(); }, 240);
   }
+}
 
-  function uid() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  }
+function clearDone() {
+  document.querySelectorAll('.task-card.done').forEach(c => c.classList.add('removing'));
+  setTimeout(() => { tasks = tasks.filter(t => !t.done); save(); render(); }, 260);
+}
+clearBtn.addEventListener('click', clearDone);
 
-  function relativeDate(ts) {
-    const diff = Date.now() - ts;
-    const m = Math.floor(diff / 60000);
-    if (m < 1)  return 'just now';
-    if (m < 60) return `${m}m ago`;
-    const h = Math.floor(m / 60);
-    if (h < 24) return `${h}h ago`;
-    const d = Math.floor(h / 24);
-    return d === 1 ? 'yesterday' : `${d}d ago`;
-  }
+/* ── Filters ── */
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  filter = btn.dataset.filter;
+  render();
+});
 
-  function addTask() {
-    const text = taskInput.value.trim();
-    if (!text) { taskInput.focus(); return; }
-    const task = { id: uid(), text, done: false, created: Date.now() };
-    tasks.unshift(task);
-    save();
-    taskInput.value = '';
-    render();
-    taskInput.focus();
-  }
+function getFiltered() {
+  if (filter === 'done') return tasks.filter(t => t.done);
+  if (filter === 'all')  return tasks;
+  return tasks.filter(t => t.category === filter);
+}
 
-  function toggleTask(id) {
-    const t = tasks.find(t => t.id === id);
-    if (t) { t.done = !t.done; save(); render(); }
-  }
+function activeClass(f) {
+  if (f === 'all')  return 'active-all';
+  if (f === 'done') return 'active-done';
+  return `active-${f}`;
+}
 
-  function deleteTask(id) {
-    const card = document.querySelector(`[data-id="${id}"]`);
-    if (card) {
-      card.classList.add('removing');
-      setTimeout(() => {
-        tasks = tasks.filter(t => t.id !== id);
-        save(); render();
-      }, 260);
-    }
-  }
+/* ── Render ── */
+function render() {
+  const filtered = getFiltered();
+  const total    = tasks.length;
+  const doneCount = tasks.filter(t => t.done).length;
+  const pct = total ? Math.round(doneCount / total * 100) : 0;
+  progressFill.style.width = pct + '%';
+  progressLabel.textContent = `${doneCount} / ${total} done`;
 
-  function clearDone() {
-    const doneCards = document.querySelectorAll('.task-card.done');
-    doneCards.forEach(c => c.classList.add('removing'));
-    setTimeout(() => {
-      tasks = tasks.filter(t => !t.done);
-      save(); render();
-    }, 280);
-  }
-
-  function getFiltered() {
-    if (filter === 'active') return tasks.filter(t => !t.done);
-    if (filter === 'done')   return tasks.filter(t => t.done);
-    return tasks;
-  }
-
-  function render() {
-    const filtered = getFiltered();
-    const total = tasks.length;
-    const doneCount = tasks.filter(t => t.done).length;
-    const pct = total ? Math.round((doneCount / total) * 100) : 0;
-    progressFill.style.width = pct + '%';
-    progressLabel.textContent = `${doneCount} / ${total} done`;
-
-    taskList.innerHTML = '';
-
-    if (filtered.length === 0) {
-      const emptyMsgs = {
-        all:    { icon: '✨', title: 'All clear!', body: 'Add your first task above to get started.' },
-        active: { icon: '🎉', title: 'Nothing left to do!', body: 'All tasks are completed.' },
-        done:   { icon: '📋', title: 'No completed tasks yet', body: 'Check off some tasks to see them here.' },
-      };
-      const m = emptyMsgs[filter];
-      taskList.innerHTML = `
-        <li>
-          <div class="empty">
-            <span class="empty-icon">${m.icon}</span>
-            <strong>${m.title}</strong>
-            <p>${m.body}</p>
-          </div>
-        </li>`;
-      return;
-    }
-
-    filtered.forEach(task => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <div class="task-card${task.done ? ' done' : ''}" data-id="${task.id}">
-          <button class="check-btn${task.done ? ' checked' : ''}"
-            aria-label="${task.done ? 'Mark incomplete' : 'Mark complete'}"
-            onclick="toggleTask('${task.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </button>
-          <div class="task-text-wrap">
-            <div class="task-text">${escHtml(task.text)}</div>
-            <div class="task-meta">${relativeDate(task.created)}</div>
-          </div>
-          <button class="del-btn" aria-label="Delete task" onclick="deleteTask('${task.id}')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6M14 11v6"/>
-              <path d="M9 6V4h6v2"/>
-            </svg>
-          </button>
-        </div>`;
-      taskList.appendChild(li);
-    });
-  }
-
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // Events
-  addBtn.addEventListener('click', addTask);
-  taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
-  clearBtn.addEventListener('click', clearDone);
-
-  document.getElementById('filters').addEventListener('click', e => {
-    const btn = e.target.closest('.filter-btn');
-    if (!btn) return;
-    filter = btn.dataset.filter;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
-    render();
+  // Update filter button styles
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = 'filter-btn' + (b.dataset.filter === filter ? ' ' + activeClass(filter) : '');
   });
 
-  // Seed tasks on first visit
-  if (tasks.length === 0) {
-    tasks = [
-      { id: uid(), text: 'Buy groceries for the week', done: false, created: Date.now() - 3600000 },
-      { id: uid(), text: 'Read 20 pages of a book', done: true,  created: Date.now() - 7200000 },
-      { id: uid(), text: 'Go for a morning run', done: false, created: Date.now() - 1800000 },
-    ];
-    save();
+  // Category summary pills
+  catSummary.innerHTML = Object.entries(CATS).map(([key, meta]) => {
+    const total = tasks.filter(t => t.category === key).length;
+    const done  = tasks.filter(t => t.category === key && t.done).length;
+    return `<button class="cat-pill-big ${key}" onclick="setFilter('${key}')" title="Filter by ${meta.label}">
+      <span class="cat-dot"></span>${meta.emoji} ${meta.label} <span style="opacity:.6;font-weight:400">${done}/${total}</span>
+    </button>`;
+  }).join('');
+
+  // Tasks
+  taskList.innerHTML = '';
+  if (filtered.length === 0) {
+    const msgs = {
+      all:      { icon:'✨', title:'All clear!',          body:'Add your first task above.' },
+      work:     { icon:'💼', title:'No work tasks',       body:'Add a work task to get started.' },
+      personal: { icon:'🌿', title:'No personal tasks',   body:'Add a personal task above.' },
+      other:    { icon:'✦',  title:'No other tasks',      body:'Categorise a task as Other.' },
+      done:     { icon:'🎉', title:'Nothing completed yet', body:'Check off tasks to see them here.' },
+    };
+    const m = msgs[filter] || msgs.all;
+    taskList.innerHTML = `<li><div class="empty"><span class="empty-icon">${m.icon}</span><strong>${m.title}</strong><p>${m.body}</p></div></li>`;
+    return;
   }
 
-  render();
+  filtered.forEach(task => {
+    const cat = task.category || 'other';
+    const li  = document.createElement('li');
+    li.innerHTML = `
+      <div class="task-card cat-${cat}${task.done?' done':''}" data-id="${escHtml(task.id)}">
+        <button class="check-btn${task.done?' checked':''}"
+          aria-label="${task.done?'Mark incomplete':'Mark complete'}"
+          onclick="toggleTask('${escHtml(task.id)}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
+        <div class="task-text-wrap">
+          <div class="task-text">${escHtml(task.text)}</div>
+          <div class="task-meta">
+            <span class="cat-badge ${cat}"><span class="dot"></span>${CATS[cat].label}</span>
+            <span>${relativeDate(task.created)}</span>
+          </div>
+        </div>
+        <button class="del-btn" aria-label="Delete task" onclick="deleteTask('${escHtml(task.id)}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+          </svg>
+        </button>
+      </div>`;
+    taskList.appendChild(li);
+  });
+}
+
+function setFilter(f) { filter = f; render(); }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Seed on first visit
+if (tasks.length === 0) {
+  tasks = [
+    { id:uid(), text:'Finish Q3 report draft',       done:false, created:Date.now()-5400000, category:'work'     },
+    { id:uid(), text:'Reply to team emails',          done:true,  created:Date.now()-7200000, category:'work'     },
+    { id:uid(), text:'Book dentist appointment',      done:false, created:Date.now()-3600000, category:'personal' },
+    { id:uid(), text:'Go for a morning run',          done:true,  created:Date.now()-9000000, category:'personal' },
+    { id:uid(), text:'Plan weekend hiking trip',      done:false, created:Date.now()-1800000, category:'personal' },
+    { id:uid(), text:'Renew car insurance',           done:false, created:Date.now()-2700000, category:'other'    },
+  ];
+  save();
+}
+
+render();
 </script>
 </body>
 </html>
